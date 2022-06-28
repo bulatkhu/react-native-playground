@@ -1,7 +1,7 @@
-import { Text, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React, { FC, useState } from "react";
 import { ListItemType } from "../../App";
-import { Button, Checkbox, Input, Stack } from "native-base";
+import { Button, Checkbox, Input, Stack, Text } from "native-base";
 import useCustomTheme from "../hooks/useCustomTheme";
 import DropShadow from "react-native-drop-shadow";
 
@@ -39,51 +39,44 @@ const ListItem: FC<Props> = ({ item, index, deleteTodo, modifyTodo }) => {
         style={[styles.root, { borderColor: baseBorderColor }]}
         bg={baseWhite}
       >
-        <View style={styles.fields}>
-          {modify ? (
-            <Input
-              variant="rounded"
-              mx="3"
-              mb="2"
-              placeholder="Input"
-              w="75%"
-              maxWidth="300px"
-              value={text}
-              onChangeText={setText}
-            />
-          ) : (
-            <Text style={styles.text}>
-              {index}) {item.text}
-            </Text>
-          )}
-        </View>
-        <Stack space={1} style={styles.actions}>
-          <Button size="sm" onPress={() => deleteTodo(item.key)}>
-            Delete
-          </Button>
-          <Button
-            size="sm"
-            onPress={() => {
-              setText(item.text);
-              setModify(flag => {
-                const newFlag = !flag;
-                if (!newFlag) {
-                  modifyTodo({ ...item, text });
-                }
-                return newFlag;
-              });
-            }}
-          >
-            {modify ? "Save" : "Modify"}
-          </Button>
-          <Checkbox
-            value="Status"
-            isChecked={item.status}
-            onChange={status => modifyTodo({ status, key: item.key })}
-          >
-            Status
-          </Checkbox>
-        </Stack>
+        <Checkbox
+          value=""
+          isChecked={item.status}
+          onChange={status => modifyTodo({ status, key: item.key })}
+        >
+          &nbsp;
+        </Checkbox>
+        {modify ? (
+          <Input
+            variant="rounded"
+            maxW="100%"
+            placeholder="Input"
+            value={text}
+            onChangeText={setText}
+          />
+        ) : (
+          <Text fontSize="md">
+            {index}) {item.text}
+          </Text>
+        )}
+        <Button size="sm" onPress={() => deleteTodo(item.key)}>
+          Delete
+        </Button>
+        <Button
+          size="sm"
+          onPress={() => {
+            setText(item.text);
+            setModify(flag => {
+              const newFlag = !flag;
+              if (!newFlag) {
+                modifyTodo({ ...item, text });
+              }
+              return newFlag;
+            });
+          }}
+        >
+          {modify ? "Save" : "Modify"}
+        </Button>
       </Stack>
     </DropShadow>
   );
@@ -93,13 +86,12 @@ const styles = StyleSheet.create({
   root: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
     width: "100%",
+    flexDirection: "row",
     marginBottom: 15,
+    paddingVertical: 14,
+    paddingHorizontal: 15,
     borderWidth: 1,
-  },
-  text: {
-    marginBottom: 10,
   },
   fields: {},
   actions: {

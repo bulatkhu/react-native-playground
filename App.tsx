@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import uuid from "react-native-uuid";
 import ListItem from "./src/components/ListItem";
 import useCustomTheme from "./src/hooks/useCustomTheme";
@@ -42,23 +42,27 @@ const App = () => {
       <Text bold fontSize="2xl" style={{ marginBottom: 30 }}>
         Today’s tasks
       </Text>
-      {todos.map((todo, index) => (
-        <ListItem
-          key={todo.key}
-          item={todo}
-          index={index + 1}
-          deleteTodo={key => {
-            setTodos(todos => todos.filter(todo => todo.key !== key));
-          }}
-          modifyTodo={newTodo => {
-            setTodos(todos =>
-              todos.map(todo =>
-                todo.key === newTodo.key ? { ...todo, ...newTodo } : todo,
-              ),
-            );
-          }}
-        />
-      ))}
+      <FlatList
+        data={todos}
+        renderItem={({ item, index }) => {
+          return (
+            <ListItem
+              item={item}
+              index={index + 1}
+              deleteTodo={key => {
+                setTodos(todos => todos.filter(todo => todo.key !== key));
+              }}
+              modifyTodo={newTodo => {
+                setTodos(todos =>
+                  todos.map(todo =>
+                    todo.key === newTodo.key ? { ...todo, ...newTodo } : todo,
+                  ),
+                );
+              }}
+            />
+          );
+        }}
+      />
     </View>
   );
 };
