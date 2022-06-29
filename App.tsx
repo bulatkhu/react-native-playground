@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 // import uuid from "react-native-uuid";
 import { Text } from "native-base";
 import TaskItem from "./src/components/TaskItem";
+import TaskInput from "./src/components/TaskInput";
 
 export type ListItemType = { key: string; text: string; status: boolean };
 
@@ -32,14 +33,15 @@ export type ListItemType = { key: string; text: string; status: boolean };
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.tasksWrapper}>
+      <View>
         <Text style={styles.sectionTitle}>Today's tasks</Text>
         <View style={styles.items}>
-          <TaskItem>Task item</TaskItem>
+          <TaskItem>Task item1</TaskItem>
           <TaskItem>Task item</TaskItem>
           <TaskItem>Task item</TaskItem>
         </View>
       </View>
+      <TaskInput />
     </SafeAreaView>
   );
 };
@@ -48,10 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#E8EAED",
-  },
-  tasksWrapper: {
     padding: 30,
-    paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 24,
